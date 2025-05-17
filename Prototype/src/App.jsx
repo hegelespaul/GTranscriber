@@ -15,7 +15,7 @@ export default function GuitarApp() {
   return (
     <div className='main'>
       <Header />
-      <Recorder />
+      <Recorder setActiveNotes={setActiveNotes}/>
       <FretboardSVG activeNotes={activeNotes} setActiveNotes={setActiveNotes} />
       <ChordSelector selectedChord={selectedChord} onChange={handleChordChange} />
     </div>

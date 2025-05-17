@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 
-export default function AudioStreamerWithCanvas() {
+export default function AudioStreamerWithCanvas({ setActiveNotes }) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [modelOutput, setModelOutput] = useState(null);
   const canvasRef = useRef(null);
@@ -108,6 +108,8 @@ export default function AudioStreamerWithCanvas() {
 
       const result = await response.json();
       setModelOutput(result.output);  
+      const validNotes = result.output.filter(note => !note.endsWith('-x'));
+      setActiveNotes(validNotes);
     } catch (err) {
       console.error('Error sending audio frame:', err);
     }
@@ -131,7 +133,7 @@ export default function AudioStreamerWithCanvas() {
         height={150}
         className="waveform-canvas"
       />
-      <div style={{ marginTop: '1rem', color: '#333', fontFamily:'monospace', fontSize: '20px', textAlign:'center' }}>
+      <div style={{ marginTop: '1rem', color: '#333', fontFamily:'monospace', fontSize: '20px', textAlign:'center'}}>
         <strong>Model Output:</strong>
         <pre style={{ maxHeight: 200, overflowY: 'auto', fontSize: '12px' }}>
           {modelOutput ? JSON.stringify(modelOutput, null, 2) : 'Waiting Output...'}
